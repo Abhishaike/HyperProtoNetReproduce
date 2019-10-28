@@ -5,32 +5,34 @@ from scipy.optimize import minimize
 from numpy import linalg as LA
 import matplotlib.pyplot as plt
 
-def create_hypersphere_loss(num_classes, output_dimension, privileged_info = None):
+def create_hypersphere_loss(num_classes, output_dimension, unique_classes, use_privileged_info = None):
     '''
     :param num_classes: refers to K in the paper
     :param output_dimension: refers to D in the paper
+    :param unique_classes: used to create embedding vectors to better inform the optimization, not used right now
     the set of hypersphere should be a matrix of K x D
     '''
     init_hyperspheres = np.array([np.array(np.random.random(output_dimension)) for x in range(num_classes)]) #init the hyperspheres
     cons = {'type':'eq',
             'fun': l2_norm_constraint,
             'args': (num_classes,output_dimension)} #l2 norm equality constraint
-    if privileged_info is None: #if there is no priv. information, just use cosine dist to distribute the points
+    if use_privileged_info is False: #if there is no priv. information, just use cosine dist to distribute the points
         res = minimize(cosine_similarity_loss,
                        init_hyperspheres,
-                       args = (num_classes, output_dimension),
+                       args=(num_classes, 100),
                        method='SLSQP',
-                       constraints = cons,
-                       options={'disp': True})
+                       constraints=cons,
+                       options={'disp': True, 'maxiter': 5})
     else:
         res = minimize(combined_loss, #else, use the sum of the cosine and priv. info to distribute points
                        init_hyperspheres,
-                       args = (num_classes, output_dimension, privileged_info),
+                       args = (num_classes, output_dimension, unique_classes),
                        method='SLSQP',
                        constraints = cons,
-                       options={'disp': True})
+                       options={'disp': True, 'maxiter': 5})
     optimized_points = np.reshape(res.x, (num_classes, output_dimension)) #scipy auto flattens the hyperspheres, this turns it back to K x D
-    return optimized_points
+    class_matched_points = dict(zip(unique_classes, optimized_points))
+    return class_matched_points
     # print(LA.norm(init_hyperspheres, ord = 2, axis = 0))
     # print(LA.norm(optimized_points, ord = 2, axis = 0))
     # plt.scatter(res_X[:, 0], res_X[:, 1])
