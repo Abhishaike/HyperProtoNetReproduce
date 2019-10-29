@@ -1,38 +1,51 @@
 from prototype_sphere_loss import regression_loss, classification_loss, joint_loss
 import torch
 import torchvision.transforms as transforms
+from prototype_sphere_loss import classification_loss
 
 def train(model, device, train_loader, optimizer, class_matched_points, epoch):
     model.train()
-    for local_batch, local_labels in train_loader:
+    for batch_idx, (local_batch, local_labels) in enumerate(train_loader):
         # Transfer to GPU
         hypersphere_labels = torch.FloatTensor([list(class_matched_points[class_num.item()]) for class_num in local_labels])
         image, hypersphere_labels = local_batch.to(device), hypersphere_labels.to(device)
         optimizer.zero_grad()
         hypersphere_prediction = model(image)
-        cosine_loss = (hypersphere_prediction, hypersphere_labels)
+        cosine_loss = classification_loss(hypersphere_prediction, hypersphere_labels)
         cosine_loss.backward()
         optimizer.step()
-        if batch_idx % args.log_interval == 0:
+        if batch_idx%16 == 0:
             print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
                 epoch, batch_idx * len(image), len(train_loader.dataset),
-                100. * batch_idx / len(train_loader), loss.item()))
+                100. * batch_idx / len(train_loader), cosine_loss.item()))
 
 
-def test(model, device, test_loader):
+def test(model, device, test_loader, class_matched_points, epoch):
     model.eval()
     test_loss = 0
     correct = 0
+    all_true_labels = []
+    all_pred_labels = []
     with torch.no_grad():
-        for data, target in test_loader:
-            data, target = data.to(device), target.to(device)
-            output = model(data)
-            test_loss += F.nll_loss(output, target, reduction='sum').item() # sum up batch loss
-            pred = output.argmax(dim=1, keepdim=True) # get the index of the max log-probability
-            correct += pred.eq(target.view_as(pred)).sum().item()
+        for batch_idx, (local_batch, local_labels) in enumerate(test_loader):
+            image, class_labels = local_batch.to(device), local_labels.to(device)
+            hypersphere_prediction = model(image)
+            pred_labels = assign_predicted_class(device, hypersphere_prediction, class_matched_points) #get closest matching prototypes
+            all_true_labels.append(class_labels)
+            all_pred_labels.append(pred_labels)
 
-    test_loss /= len(test_loader.dataset)
 
-    print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
-        test_loss, correct, len(test_loader.dataset),
-        100. * correct / len(test_loader.dataset)))
+    print('\n Epock {0}, Test set accuracy:'.format())
+
+
+def assign_predicted_class(device, hypersphere_prediction, class_matched_points):
+    label_target = []
+    for prediction in hypersphere_prediction: #for every prediction
+        max_cosine_similarity = 0 #reset similarity
+        temp_pred_target = 0
+        for label, label_prototype in class_matched_points.items(): #find the closest prototype according to cosine similarity
+            cosine_similarity = torch.nn.functional.cosine_similarity(torch.FloatTensor(label_prototype).to(device), prediction, dim=0, eps=1e-8)
+            if cosine_similarity > max_cosine_similarity: #if the similarity is higher than last highest, save it
+                max_cosine_similarity = cosine_similarity
+                temp_pred_target = label
+        label_target.append(temp_pred_target) #save the target with the highest cosine similarity
