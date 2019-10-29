@@ -5,7 +5,7 @@ from scipy.optimize import minimize
 from numpy import linalg as LA
 import matplotlib.pyplot as plt
 
-def create_hypersphere_loss(num_classes, output_dimension, unique_classes, use_privileged_info = None):
+def create_hypersphere_loss(num_classes, output_dimension, unique_classes, unique_class_numbers, use_privileged_info = None):
     '''
     :param num_classes: refers to K in the paper
     :param output_dimension: refers to D in the paper
@@ -19,7 +19,7 @@ def create_hypersphere_loss(num_classes, output_dimension, unique_classes, use_p
     if use_privileged_info is False: #if there is no priv. information, just use cosine dist to distribute the points
         res = minimize(cosine_similarity_loss,
                        init_hyperspheres,
-                       args=(num_classes, 100),
+                       args=(num_classes, output_dimension),
                        method='SLSQP',
                        constraints=cons,
                        options={'disp': True, 'maxiter': 5})
@@ -31,7 +31,7 @@ def create_hypersphere_loss(num_classes, output_dimension, unique_classes, use_p
                        constraints = cons,
                        options={'disp': True, 'maxiter': 5})
     optimized_points = np.reshape(res.x, (num_classes, output_dimension)) #scipy auto flattens the hyperspheres, this turns it back to K x D
-    class_matched_points = dict(zip(unique_classes, optimized_points))
+    class_matched_points = dict(zip(unique_class_numbers, optimized_points))
     return class_matched_points
     # print(LA.norm(init_hyperspheres, ord = 2, axis = 0))
     # print(LA.norm(optimized_points, ord = 2, axis = 0))
