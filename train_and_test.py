@@ -2,6 +2,7 @@ from prototype_sphere_loss import regression_loss, classification_loss, joint_lo
 import torch
 import torchvision.transforms as transforms
 from prototype_sphere_loss import classification_loss
+import numpy as np
 
 def train(model, device, train_loader, optimizer, class_matched_points, epoch):
     model.train()
@@ -18,12 +19,11 @@ def train(model, device, train_loader, optimizer, class_matched_points, epoch):
             print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
                 epoch, batch_idx * len(image), len(train_loader.dataset),
                 100. * batch_idx / len(train_loader), cosine_loss.item()))
+        #cv2.imshow('hi',image[5].cpu().numpy().transpose(1, 2, 0)) #see example batch image
 
 
 def test(model, device, test_loader, class_matched_points, epoch):
     model.eval()
-    test_loss = 0
-    correct = 0
     all_true_labels = []
     all_pred_labels = []
     with torch.no_grad():
@@ -31,11 +31,9 @@ def test(model, device, test_loader, class_matched_points, epoch):
             image, class_labels = local_batch.to(device), local_labels.to(device)
             hypersphere_prediction = model(image)
             pred_labels = assign_predicted_class(device, hypersphere_prediction, class_matched_points) #get closest matching prototypes
-            all_true_labels.append(class_labels)
-            all_pred_labels.append(pred_labels)
+            corrects = (np.array(class_labels.cpu()) == pred_labels)
 
-
-    print('\n Epock {0}, Test set accuracy:'.format())
+    print('\n Epoch {0}, Test set accuracy: {1}'.format(epoch, corrects))
 
 
 def assign_predicted_class(device, hypersphere_prediction, class_matched_points):
@@ -49,3 +47,4 @@ def assign_predicted_class(device, hypersphere_prediction, class_matched_points)
                 max_cosine_similarity = cosine_similarity
                 temp_pred_target = label
         label_target.append(temp_pred_target) #save the target with the highest cosine similarity
+    return label_target

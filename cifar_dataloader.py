@@ -11,7 +11,7 @@ def get_cifar_data(batch_size):
 
 def get_train_loader(batch_size):
     transform_train = transforms.Compose([transforms.RandomHorizontalFlip(),
-                         transforms.RandomCrop(32, padding=4),
+                         #transforms.RandomCrop(32, padding=4),
                          transforms.ToTensor()])
     trainset = torchvision.datasets.CIFAR100(root='./data',
                                              train=True,

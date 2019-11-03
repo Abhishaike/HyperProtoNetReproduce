@@ -5,7 +5,7 @@ from torchvision.models.resnet import BasicBlock, Bottleneck
 
 
 class ResNet(torchvision.models.resnet.ResNet):
-    def __init__(self, block, layers, num_classes=1000, group_norm=False):
+    def __init__(self, block, layers, num_classes=1000, group_norm=True):
         if group_norm:
             norm_layer = lambda x: nn.GroupNorm(32, x)
         else:
