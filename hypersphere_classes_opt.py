@@ -6,15 +6,16 @@ from numpy import linalg as LA
 import matplotlib.pyplot as plt
 import torch
 from numba import jit, float64, int64
+import scipy
 
-
-def create_hypersphere_loss_wo_constraints(num_classes, output_dimension, unique_classes, unique_class_numbers, epochs = 10, use_privileged_info=None):
+def create_hypersphere_loss_wo_constraints(num_classes, output_dimension, unique_classes, unique_class_numbers, epochs = 500, use_privileged_info=None):
     '''
     :param num_classes: refers to K in the paper
     :param output_dimension: refers to D in the paper
     :param unique_classes: used to create embedding vectors to better inform the optimization, not used right now
     the set of hypersphere should be a matrix of K x D
     '''
+    np.random.seed(seed=0)
     init_hyperspheres = np.array([-2*np.array(np.random.random(output_dimension))+1 for x in range(num_classes)]) #init the hyperspheres
     optimized_hyperspheres = (init_hyperspheres.T / np.linalg.norm(init_hyperspheres, axis=1)).T
     if use_privileged_info is False:  # if there is no priv. information, just use cosine dist to distribute the points
@@ -24,7 +25,7 @@ def create_hypersphere_loss_wo_constraints(num_classes, output_dimension, unique
                            optimized_hyperspheres,
                            args=(num_classes, output_dimension),
                            method='BFGS',
-                           options={'disp': None, 'maxiter': 50})
+                           options={'disp': None, 'maxiter': 2})
             optimized_hyperspheres = np.reshape(res.x, (num_classes, output_dimension))  # scipy auto flattens the hyperspheres, this turns it back to K x D
             print('Hypersphere init loss:', res.fun)
     else:
@@ -33,8 +34,8 @@ def create_hypersphere_loss_wo_constraints(num_classes, output_dimension, unique
             res = minimize(combined_loss,
                            optimized_hyperspheres,
                            args=(num_classes, output_dimension, unique_classes),
-                           method='BFGS',
-                           options={'disp': None, 'maxiter': 1})
+                           method='Nelder-Mead',
+                           options={'disp': None, 'maxiter': 10})
             optimized_hyperspheres = np.reshape(res.x, (num_classes, output_dimension))  # scipy auto flattens the hyperspheres, this turns it back to K x D
             print('Hypersphere init loss:', res.fun)
 
@@ -44,7 +45,6 @@ def create_hypersphere_loss_wo_constraints(num_classes, output_dimension, unique
     # print(LA.norm(init_hyperspheres, ord = 2, axis = 1))
     # print(LA.norm(optimized_points, ord = 2, axis = 1))
     # plt.scatter(res_X[:, 0], res_X[:, 1])
-
 
 
 def create_hypersphere_loss_w_constraints(num_classes, output_dimension, unique_classes, unique_class_numbers, use_privileged_info = None):
@@ -57,6 +57,7 @@ def create_hypersphere_loss_w_constraints(num_classes, output_dimension, unique_
     IDENTICAL TO THE ABOVE LOSS, EXCEPT INBUILT CONSTRAINTS ARE USED AND L2 REPROJECTION IS ONLY DONE AT THE END OF THE
     OPTIMIZATION. NOT USED DUE TO EXTREMELY LARGE TIME DEMANDS
     '''
+    np.random.seed(seed=0)
     init_hyperspheres = np.array([-2*np.array(np.random.random(output_dimension))+1 for x in range(num_classes)]) #init the hyperspheres
     init_hyperspheres = (init_hyperspheres.T / np.linalg.norm(init_hyperspheres, axis=1)).T
     cons = {'type':'eq',
@@ -68,7 +69,7 @@ def create_hypersphere_loss_w_constraints(num_classes, output_dimension, unique_
                        args=(num_classes, output_dimension),
                        method='SLSQP',
                        constraints=cons,
-                       options={'disp': True, 'maxiter': 500})
+                       options={'disp': True, 'maxiter': 50})
     else:
         res = minimize(combined_loss, #else, use the sum of the cosine and priv. info to distribute points
                        init_hyperspheres,
@@ -89,9 +90,9 @@ def cosine_similarity_loss(P, num_classes, output_dimension):
     The average cosine similarity loss subject to ||X||2 = 1
     '''
     P = np.reshape(P, (num_classes, output_dimension)) #scipy auto flattens the hyperspheres, this turns it back to K x D
-    #summed_loss =  np.sum(np.amax(np.matmul(distance.cdist(P, P, 'cosine'), (distance.cdist(P, P, 'cosine').T)) - np.identity(num_classes), axis = 0))
-    summed_loss =  np.sum(np.amax(distance.cdist(P, P, 'cosine').T - np.identity(num_classes), axis = 0))
-    #summed_loss = np.sum(np.amax(np.matmul(P, P.T) - np.identity(num_classes), axis = 0))
+    #summed_loss =  np.sum(np.amax(np.matmul(distance.cdist(P, P, 'cosine'), (distance.cdist(P, P, 'cosine').T)) - np.identity(num_classes), axis = 1))
+    #summed_loss =  np.sum(np.amax(distance.cdist(P, P, 'cosine') - np.identity(num_classes), axis = 1))
+    summed_loss = np.sum(np.amax(np.matmul(P, P.T) - 2 * np.identity(num_classes), axis = 1))
     average_loss = (1/num_classes) * summed_loss
     return average_loss
 
