@@ -1,9 +1,10 @@
-from prototype_sphere_loss import regression_loss, classification_loss, joint_loss
+from nn_losses import regression_loss, classification_loss, joint_loss
 import torch
 import torchvision.transforms as transforms
-from prototype_sphere_loss import classification_loss
+from nn_losses import classification_loss
 import numpy as np
 import scipy
+import torch.nn.functional as F
 
 def train(model, device, train_loader, optimizer, class_matched_points, epoch):
     model.train()
@@ -30,14 +31,18 @@ def train(model, device, train_loader, optimizer, class_matched_points, epoch):
 def test(model, device, test_loader, class_matched_points, epoch):
     model.eval()
     all_correct = []
+    all_loss = []
     with torch.no_grad():
         for batch_idx, (local_batch, local_labels) in enumerate(test_loader):
+            hypersphere_vector = torch.FloatTensor([list(class_matched_points[class_num.item()]) for class_num in local_labels]).to(device)  # get the vector of the label
             image, hypersphere_labels = local_batch.to(device), local_labels.to(device)
             hypersphere_prediction = model(image)
+            cosine_loss = classification_loss(hypersphere_prediction, hypersphere_vector)
             pred_labels = assign_predicted_class(hypersphere_prediction, class_matched_points) #get closest matching prototypes
             correct = (np.array(hypersphere_labels.cpu()) == pred_labels)
             all_correct.extend(correct * 1)
-    print('\n Epoch {0}, Test set accuracy: {1}'.format(epoch, np.array(all_correct).mean()))
+            all_loss.append(cosine_loss.item())
+    print('\n Epoch {0}, Test set accuracy: {1}, Loss: {2}'.format(epoch, np.array(all_correct).mean(), np.array(all_loss).mean()))
 
 
 def assign_predicted_class(hypersphere_prediction, class_matched_points):

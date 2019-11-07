@@ -90,9 +90,8 @@ def cosine_similarity_loss(P, num_classes, output_dimension):
     The average cosine similarity loss subject to ||X||2 = 1
     '''
     P = np.reshape(P, (num_classes, output_dimension)) #scipy auto flattens the hyperspheres, this turns it back to K x D
-    #summed_loss =  np.sum(np.amax(np.matmul(distance.cdist(P, P, 'cosine'), (distance.cdist(P, P, 'cosine').T)) - np.identity(num_classes), axis = 1))
-    #summed_loss =  np.sum(np.amax(distance.cdist(P, P, 'cosine') - np.identity(num_classes), axis = 1))
-    summed_loss = np.sum(np.amax(np.matmul(P, P.T) - 2 * np.identity(num_classes), axis = 1))
+    P = (P.T / np.linalg.norm(P, axis=1)).T
+    summed_loss = np.sum(np.amax(np.matmul(P, P.T) + 1 - 2 * np.identity(num_classes), axis = 1))
     average_loss = (1/num_classes) * summed_loss
     return average_loss
 
