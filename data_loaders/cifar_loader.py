@@ -22,7 +22,8 @@ def get_train_loader_cifar(batch_size):
     transform_train = transforms.Compose([transforms.RandomHorizontalFlip(),
                                           transforms.RandomCrop(32, 4),
                                           transforms.ToTensor(),
-                                          normalize])
+                                          normalize
+                                          ])
     trainset = torchvision.datasets.CIFAR100(root='data/cifar-100-python/',
                                              train=True,
                                              download=True,
@@ -33,7 +34,11 @@ def get_train_loader_cifar(batch_size):
     return trainloader
 
 def get_test_loader_cifar(batch_size):
-    transform_test = transforms.Compose([transforms.ToTensor()])
+    mrgb = [0.507, 0.487, 0.441]
+    srgb = [0.267, 0.256, 0.276]
+    normalize = transforms.Normalize(mean=mrgb, std=srgb)
+    transform_test = transforms.Compose([transforms.ToTensor(),
+                                         normalize])
     testset = torchvision.datasets.CIFAR100(root='data/cifar-100-python/',
                                             train=False,
                                             download=True,

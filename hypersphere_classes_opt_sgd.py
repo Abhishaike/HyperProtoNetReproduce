@@ -1,12 +1,7 @@
 #
 # Obtain hyperspherical prototypes prior to network training.
 #
-# @inproceedings{mettes2016hyperspherical,
-#  title={Hyperspherical Prototype Networks},
-#  author={Mettes, Pascal and van der Pol, Elise and Snoek, Cees G M},
-#  booktitle={Advances in Neural Information Processing Systems},
-#  year={2019}
-# }
+# Portions of code taken from https://github.com/psmmettes/hpn/blob/master/helper.py
 #
 import os
 import sys
@@ -37,7 +32,7 @@ def prototype_loss(prototypes):
 #
 def create_hypersphere_loss_w_sgd(num_classes, output_dimension, unique_class_numbers):
     prototypes = torch.randn(num_classes, output_dimension)
-    prototypes = nn.Parameter(F.normalize(prototypes, p=2, dim=1))
+    prototypes = nn.Parameter(F.normalize(prototypes, p=2, dim=1), requires_grad = True)
     optimizer = optim.SGD([prototypes], lr=.01, momentum=.9)
 
     # Optimize for separation.
@@ -50,7 +45,7 @@ def create_hypersphere_loss_w_sgd(num_classes, output_dimension, unique_class_nu
         optimizer.step()
         print("Epoch {0}: {1}".format(epoch, sep))
         # Renormalize prototypes.
-        prototypes = nn.Parameter(F.normalize(prototypes, p=2, dim=1))
+        prototypes = nn.Parameter(F.normalize(prototypes, p=2, dim=1), requires_grad = True)
         optimizer = optim.SGD([prototypes], lr=.01, momentum=.9)
 
     class_matched_points = dict(zip(unique_class_numbers, prototypes.detach().numpy()))

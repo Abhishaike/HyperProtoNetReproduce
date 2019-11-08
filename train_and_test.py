@@ -5,12 +5,13 @@ from nn_losses import classification_loss
 import numpy as np
 import scipy
 import torch.nn.functional as F
+from sklearn.metrics.pairwise import cosine_similarity
 
-def train(model, device, train_loader, optimizer, class_matched_points, epoch):
+def train(model, device, train_loader, optimizer, epoch, classification_matched_points):
     model.train()
     for batch_idx, (local_batch, local_labels) in enumerate(train_loader):
         # Transfer to GPU
-        hypersphere_vector = torch.FloatTensor([list(class_matched_points[class_num.item()]) for class_num in local_labels]) #get the vector of the label
+        hypersphere_vector = torch.FloatTensor([list(classification_matched_points[class_num.item()]) for class_num in local_labels]) #get the vector of the label
         image, hypersphere_vector = local_batch.to(device), hypersphere_vector.to(device)
         optimizer.zero_grad()
         hypersphere_prediction = model(image)
@@ -21,7 +22,7 @@ def train(model, device, train_loader, optimizer, class_matched_points, epoch):
             print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
                 epoch, batch_idx * len(image), len(train_loader.dataset),
                 100. * batch_idx / len(train_loader), cosine_loss.item()))
-            hypersphere_labels = assign_predicted_class(hypersphere_prediction.detach(), class_matched_points) #get closest matching prototypes
+            hypersphere_labels = assign_predicted_class(hypersphere_prediction.detach(), classification_matched_points) #get closest matching prototypes
             correct = (np.array(hypersphere_labels) == np.array(local_labels.cpu())) * 1
             print('Train Accuracy: ', correct.mean())
 
@@ -50,6 +51,17 @@ def assign_predicted_class(hypersphere_prediction, class_matched_points):
     hypersphere_label, hypersphere_vector = list(class_matched_points.keys()), np.array(list(class_matched_points.values()))
     predicted_label = []
     for prediction in hypersphere_prediction: #for every prediction, find the closest prototype and get the label
-        all_distances = [scipy.spatial.distance.cosine(prediction, label) for label in hypersphere_vector]
-        predicted_label.append(hypersphere_label[np.argmin(all_distances)])
+        all_distances_scipy = [1-scipy.spatial.distance.cosine(prediction, label) for label in hypersphere_vector] #1-distance gives similarity
+        predicted_label.append(hypersphere_label[np.argmax(all_distances_scipy)])
     return predicted_label
+
+
+def assign_regressed_value(hypersphere_prediction, upper_bound, lower_bound):
+    hypersphere_prediction = np.array(hypersphere_prediction.cpu())
+    hypersphere_label, hypersphere_vector = list(class_matched_points.keys()), np.array(list(class_matched_points.values()))
+    predicted_label = []
+    for prediction in hypersphere_prediction: #for every prediction, find the closest prototype and get the label
+        all_distances_scipy = [1-scipy.spatial.distance.cosine(prediction, label) for label in hypersphere_vector] #1-distance gives similarity
+        predicted_label.append(hypersphere_label[np.argmax(all_distances_scipy)])
+    return predicted_label
+

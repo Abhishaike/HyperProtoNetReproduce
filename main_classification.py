@@ -8,7 +8,7 @@ import torch.optim as optim
 import matplotlib.pyplot as plt
 import numpy as np
 
-output_dimension = 25
+output_dimension = 10
 privileged_info = None
 lr = .01
 momentum = .9
@@ -16,6 +16,7 @@ use_cuda = True
 batch_size = 128
 epochs = 300
 device = torch.device("cuda" if use_cuda else "cpu")
+dataset = 'cifar'
 
 train_loader, test_loader = cifar_loader.get_cifar_data(batch_size=batch_size)
 unique_classes = list(set(train_loader.dataset.classes)) #class names privileged information, do not use for now
@@ -31,7 +32,7 @@ class_matched_points = create_hypersphere_loss_w_constraints(num_classes = num_c
 # class_matched_points = create_hypersphere_loss_w_sgd(num_classes = num_classes,
 #                                                      output_dimension = output_dimension,
 #                                                      unique_class_numbers = unique_class_numbers)
-
+#
 
 model = resnet32(output_dimension).to(device)
 optimizer = optim.SGD(model.parameters(), lr=lr, momentum=momentum, weight_decay=1e-4)
