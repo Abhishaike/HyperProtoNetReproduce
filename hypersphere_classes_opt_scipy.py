@@ -106,8 +106,7 @@ def l2_norm_constraint(P, num_classes, output_dimension):
 
 def privilege_info_loss(P, num_classes, output_dimension, unique_classes):
     '''
-    Not sure how to use this, the paper didn't specify to get the embedding info?
-    It doesn't seem to be useful anyway once D gets reasonably large, so it's fine
+    Insert the loss function for the priv info here.
     '''
     return 0
 

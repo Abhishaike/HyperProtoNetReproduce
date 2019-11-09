@@ -14,7 +14,16 @@ import torch.nn.functional as F
 from torch import nn
 
 
+def combined_loss(prototypes, num_classes, output_dimension, unique_classes):
+    cosine_similarity = prototype_loss(prototypes)
+    privilege_info = privilege_info_loss(prototypes, num_classes, output_dimension, unique_classes)
+    return cosine_similarity + privilege_info
 
+def privilege_info_loss(prototypes, num_classes, output_dimension, unique_classes):
+    '''
+    Insert the loss function for the priv info here.
+    '''
+    return 0
 
 # Compute the loss related to the prototypes.
 #
