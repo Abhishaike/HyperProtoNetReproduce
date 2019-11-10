@@ -8,7 +8,7 @@ This is a reimplementation of the NeurIPS 2019 paper [‘Hyperspherical Prototyp
 The primary benchmarks of the paper are the following: 
 1.	Benchmarking hypersphere prototype classification on ImageNet-200 with a variety of output-dimensions. 
 2.	Benchmarking hypersphere prototype classification on CIFAR-100 with a variety of output-dimensions. 
-3.	Benchmarking hypersphere prototype regression on OmniArt with two output dimensions 
+3.	Benchmarking hypersphere prototype regression on OmniArt with one output dimension. 
 4.	Benchmarking hypersphere prototype joint regression/classification on OmniArt with a variety of task weights. 
 5.	Benchmarking hypersphere prototype classification on low-sample problems using CUB-200.
 6.	Benchmarking hypersphere prototype classification on ImageNet-200 and CIFAR-100 using privileged information to place the prototypes.
