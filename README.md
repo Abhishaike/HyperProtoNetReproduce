@@ -6,19 +6,51 @@ This is a Python 3.6 reimplementation of the NeurIPS 2019 paper [‘Hyperspheric
 
 ## Benchmarking
 The primary benchmarks of the paper are the following: 
-1.	Benchmarking hypersphere prototype classification on ImageNet-200 with a variety of output-dimensions. 
-2.	Benchmarking hypersphere prototype classification on CIFAR-100 with a variety of output-dimensions. 
+1.	Benchmarking hypersphere prototype classification on CIFAR-100 with a variety of output-dimensions. 
+2.	Benchmarking hypersphere prototype classification on ImageNet-200 with a variety of output-dimensions. 
 3.	Benchmarking hypersphere prototype regression on OmniArt with one output dimension. 
 4.	Benchmarking hypersphere prototype joint regression/classification on OmniArt with a variety of task weights. 
 5.	Benchmarking hypersphere prototype classification on low-sample problems using CUB-200.
 6.	Benchmarking hypersphere prototype classification on ImageNet-200 and CIFAR-100 using privileged information to place the prototypes.
 
-This repository reimplements tasks 1-4, which are the main focuses of the paper. 
+This repository reimplements tasks 1-4, which are the main focuses of the paper. The paper tests (3) with 2 output dimensions as well, but as the results are near-identical to one another, we reimplemented just the one output dimension
 
 However, the code is modular and amenable to both tasks 5 and 6; CUB-200 could easily be used within the current ‘train_and_test_imagenet_cifar.py’ file, and privileged information is included as a parameter/function in the prototype optimization files and only require the word2vec vectors and loss function to be supplied. 
 
 ## Results
+1. CIFAR-100 : Classification
 
+| Output Dimension | Original Acc.| Reimplementation Acc.|
+| :---         |     :---:      |          ---: |
+| 10   | 51.1     | 50.7    |
+| 25     | 63.0       | git diff      |
+| 50     | 64.7       | git diff      |
+| 100     | 65.0       | git diff      |
+
+1. ImageNet-200 : Classification
+
+| Output Dimension | Original Acc.| Reimplementation Acc.|
+| :---         |     :---:      |          ---: |
+| 25   | 38.6     | git status    |
+| 50     | 44.7       | git diff      |
+| 100     | 44.6       | git diff      |
+| 200     | 44.7       | git diff      |
+
+1. OmniArt : Regression w/ LR of .001
+
+| Output Dimension | Original Acc.| Reimplementation Acc.|
+| :---         |     :---:      |          ---: |
+| S_2   | 76.3     | git status    |
+
+1. OmniArt : Joint Regression and Classification
+
+| Task Weight | Original - Classification Acc. | Reimplementation - Classification Acc.| Original - Regression MAE| Reimplementation - Regression MAE|
+| :---         |     :---:      |          ---: |     :---:      |          ---: |
+| .01   | git status     | git status    | git status     | git status    |
+| .1     | git diff       | git diff      | git diff       | git diff      |
+| .25     | git diff       | git diff      | git diff       | git diff      |
+| .5     | git diff       | git diff      | git diff       | git diff      |
+| .9     | git diff       | git diff      | git diff       | git diff      |
 
 ## Downloading Data
 For the OmniArt and ImageNet200 datasets, while in the home directory:
