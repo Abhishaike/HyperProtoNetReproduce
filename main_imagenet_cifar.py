@@ -19,9 +19,9 @@ def parse_args():
     parser.add_argument("-d", dest="decay", default=0.0001, type=float)
     parser.add_argument("-b", dest="batch_size", default=128, type=int)
     parser.add_argument("-e", dest="epochs", default=250, type=int)
-    parser.add_argument("-c", dest="use_cuda", default=True, type=int)
+    parser.add_argument("-c", dest="use_cuda", default=True, type=bool)
     parser.add_argument("--seed", dest="seed", default=100, type=int)
-    parser.add_argument("--dataset", dest="dataset", default='cifar', type=int) #could be classification, regression, or joint
+    parser.add_argument("--dataset", dest="dataset", default='cifar', type=str) #could be classification, regression, or joint
     args = parser.parse_args()
     return args
 
@@ -37,8 +37,6 @@ if __name__ == "__main__":
     batch_size = args.batch_size
     epochs = args.epochs
     device = torch.device("cuda" if args.use_cuda else "cpu")
-    operation = args.operation
-    task_weight = args.operation
     dataset = args.dataset
 
     #choose dataset to be trained on

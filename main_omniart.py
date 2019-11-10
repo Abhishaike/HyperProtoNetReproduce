@@ -22,14 +22,15 @@ def parse_args():
     parser.add_argument("-e", dest="epochs", default=250, type=int)
     parser.add_argument("-c", dest="use_cuda", default=True, type=int)
     parser.add_argument("--seed", dest="seed", default=100, type=int)
-    parser.add_argument("--operation", dest="task", default='joint', type=int) #could be classification, regression, or joint
+    parser.add_argument("--operation", dest="operation", default='joint', type=str) #could be classification, regression, or joint
     parser.add_argument("--taskweight", dest="taskweight", default=0.5, type=float) #weight of classification
     args = parser.parse_args()
     return args
 
 if __name__ == "__main__":
     # Parse user parameters and set device.
-    args   = parse_args()
+    args = parse_args()
+    print(args)
 
     output_dimension = args.output_dimension
     lr = args.learning_rate
