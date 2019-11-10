@@ -20,7 +20,7 @@ However, the code is modular and amenable to both tasks 5 and 6; CUB-200 could e
 ## Results
 
 ## Extension
-This repository also includes two alternative optimization process to the stochastic gradient descent the paper used to place prototypes: Quasi-Newton BFGS, and Constrained Sequential Quadratic Programming with the constraint being that all produced vectors must be normed. For the most part, these alternate optimization did not change the results, and the training process defaults to SGD due to its speed. 
+This repository also includes two alternative optimization process to the Stochastic Gradient Descent that the paper used to place prototypes: Quasi-Newton BFGS, and Constrained Sequential Quadratic Programming with the constraint being that all produced vectors must be normed. For the most part, these alternate optimization did not change the results, and the training process defaults to SGD due to its speed. 
 
 ## Citations 
 The original authors were extremely helpful, and their own implementation of the paper helped make some of the more confusing aspects of prototype regression much easier to understand: https://github.com/psmmettes/hpn. Code from this repository was used to format the Omniart dataset. 
