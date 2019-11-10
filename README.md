@@ -68,4 +68,4 @@ Furthermore, the PyTorch implementation of the ResNet architecture was used: htt
 
 
 ## Current Issues 
-There is some bug in how I am reporting the overall loss for training and testing, leading to extremely joint losses. It doesn't affect the actual results, 
+There isn't really a *bug* persay, but moreso just misleading: because of the normalization schemes for the training dataset, the mean absolute error for year predictions look extremely off. This doesn't affect the test groups which don't have the normalization applied to it, but just something to keep in mind. 
