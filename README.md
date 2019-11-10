@@ -46,11 +46,11 @@ However, the code is modular and amenable to both tasks 5 and 6; CUB-200 could e
 
 | Task Weight | Original - Classification Acc. | Reimplementation - Classification Acc.| Original - Regression MAE| Reimplementation - Regression MAE|
 | :---         |     :---:      |          ---: |     :---:      |          ---: |
-| .01   | git status     | git status    | git status     | git status    |
-| .1     | git diff       | git diff      | git diff       | git diff      |
-| .25     | git diff       | git diff      | git diff       | git diff      |
-| .5     | git diff       | git diff      | git diff       | git diff      |
-| .9     | git diff       | git diff      | git diff       | git diff      |
+| .01   | 46.6     | git status    | 65.2     | git status    |
+| .1     | 51.2       | git diff      | 64.6       | git diff      |
+| .25     | 54.5       | git diff      | 64.1       | git diff      |
+| .5     | 52.6       | git diff      | 68.3       | git diff      |
+| .9     | 51.4       | git diff      | 83.6       | git diff      |
 
 ## Downloading Data
 For the OmniArt and ImageNet200 datasets, while in the home directory:
@@ -100,4 +100,6 @@ Furthermore, the PyTorch implementation of the ResNet architecture was used: htt
 
 
 ## Current Issues 
-There isn't really a *bug* persay, but moreso just misleading: because of the normalization schemes for the training dataset, the mean absolute error for year predictions look extremely off. This doesn't affect the test groups which don't have the normalization applied to it, but just something to keep in mind. 
+There isn't really a *bug* persay, but moreso just misleading: because of the normalization schemes for the training dataset, the mean absolute error for year predictions look extremely off on the training dataset. This doesn't affect the test groups which don't have the normalization applied to it, so the reported classification/style accuracies are correct, but just something to keep in mind. 
+
+
