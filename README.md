@@ -84,7 +84,7 @@ python3 main_omniart.py --operation joint --seed 50 --taskweight .25
 
 
 ## Extension
-This repository also includes two alternative optimization process to the Stochastic Gradient Descent that the paper uses to place prototypes: Quasi-Newton BFGS, and Constrained Sequential Quadratic Programming with the constraint being that all produced vectors must be normed. For the most part, these alternate optimization did not change the results, and the training process defaults to SGD due to its speed. 
+This repository also includes two alternative optimization process to the Stochastic Gradient Descent that the paper uses to place prototypes: Quasi-Newton BFGS, and Constrained Sequential Quadratic Programming with the constraint being that all produced vectors must be normed. For the most part, these alternate optimization did not change the results, and the training process defaults to SGD due to its speed. To make use of these optimization methods, change the -p flag to either 'slsqp' or 'bfgs'.
 
 ## Citations 
 The original authors were extremely helpful in answering my questions, and their own implementation of the paper helped make some of the more confusing aspects of prototype regression much easier to understand: https://github.com/psmmettes/hpn. Code from this repository was used to format the Omniart dataset. 
