@@ -30,7 +30,7 @@ wget -r -nH --cut-dirs=3 --no-parent --reject="index.html*" http://isis-data.sci
 The CIFAR-100 data should be downloaded automatically upon the appropriate CIFAR-100 train run. 
 
 ## Running train/test scripts
-For the CIFAR-100 or ImageNet-200 (change dataset arguement as needed) classification tasks
+For the CIFAR-100 or ImageNet-200 (change dataset arguement as needed to 'imagenet', 'cifar' or 'mnist') classification tasks
 ```
 python3 main_imagenet_cifar.py.py --dataset imagenet --seed 50
 ```
@@ -68,4 +68,4 @@ Furthermore, the PyTorch implementation of the ResNet architecture was used: htt
 
 
 ## Current Issues 
-There is some bug in how I am reporting the overall loss for training and testing. It doesn't affect the actual results, 
+There is some bug in how I am reporting the overall loss for training and testing, leading to extremely joint losses. It doesn't affect the actual results, 
