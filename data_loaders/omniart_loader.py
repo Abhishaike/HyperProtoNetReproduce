@@ -123,6 +123,3 @@ def load_omniart(basedir, trainfile, testfile, batch_size):
                                              shuffle=True)
 
     return trainloader, testloader
-
-def load_regression_prototypes():
-    pass

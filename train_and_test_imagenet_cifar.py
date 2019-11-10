@@ -1,4 +1,4 @@
-from nn_losses import get_regression_loss, get_classification_loss, get_joint_loss
+from nn_losses import get_regression_loss, get_classification_loss
 import torch
 import torchvision.transforms as transforms
 from nn_losses import get_classification_loss
