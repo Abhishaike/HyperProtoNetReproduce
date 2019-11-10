@@ -19,6 +19,18 @@ However, the code is modular and amenable to both tasks 5 and 6; CUB-200 could e
 
 ## Results
 
+
+## Downloading Data
+For the OmniArt and ImageNet200 datasets, while in the home directory...
+```
+cd data/
+wget -r -nH --cut-dirs=3 --no-parent --reject="index.html*" http://isis-data.science.uva.nl/mettes/hpn/data/imagenet200/
+wget -r -nH --cut-dirs=3 --no-parent --reject="index.html*" http://isis-data.science.uva.nl/mettes/hpn/data/omniart/
+```
+The CIFAR-100 data should be downloaded automatically upon the appropriate CIFAR-100 train run. 
+
+## Running script
+
 ## Extension
 This repository also includes two alternative optimization process to the Stochastic Gradient Descent that the paper used to place prototypes: Quasi-Newton BFGS, and Constrained Sequential Quadratic Programming with the constraint being that all produced vectors must be normed. For the most part, these alternate optimization did not change the results, and the training process defaults to SGD due to its speed. 
 
