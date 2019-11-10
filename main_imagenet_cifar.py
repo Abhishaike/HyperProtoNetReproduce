@@ -37,7 +37,7 @@ if __name__ == "__main__":
     batch_size = args.batch_size
     epochs = args.epochs
     device = torch.device("cuda" if args.use_cuda else "cpu")
-    dataset = args.dataset
+    dataset = args.datasetjn
 
     #choose dataset to be trained on
     if dataset == 'cifar':

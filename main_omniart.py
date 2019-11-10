@@ -30,7 +30,6 @@ def parse_args():
 if __name__ == "__main__":
     # Parse user parameters and set device.
     args = parse_args()
-    print(args)
 
     output_dimension = args.output_dimension
     lr = args.learning_rate
