@@ -55,8 +55,7 @@ def train(model, device, train_loader, optimizer, epoch, classification_matched_
 
             #year mean error
             predicted_years = assign_regressed_value(hypersphere_prediction, upper_bound_prototype_tensor, upper_bound, lower_bound)
-            predicted_years_unnorm = (upper_bound - lower_bound) * ((prototype_regression - -1)/(1--1)) + 1 #renormalize values to year scale
-            mean_error = torch.abs(predicted_years_unnorm - prototype_regression).mean()
+            mean_error = torch.abs(predicted_years - prototype_regression).mean()
             print('Year Train Mean Error: ', mean_error.item())
 
 
@@ -94,7 +93,7 @@ def test(model, device, test_loader, epoch, classification_matched_points,
 
             # year mean error
             predicted_years = assign_regressed_value(hypersphere_prediction, upper_bound_prototype_tensor, upper_bound, lower_bound)
-            mean_error = torch.abs(predicted_years - prototype_regression).mean() #no need to normalize years here, they werent normalized earlier
+            mean_error = torch.abs(predicted_years - prototype_regression).mean()
             all_correct_year.append(mean_error.item())
 
     print('\nEpoch {0}, Test style accuracy: {1}, Test year error: {2}'.format(epoch,

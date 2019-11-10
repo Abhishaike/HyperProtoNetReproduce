@@ -39,7 +39,7 @@ if __name__ == "__main__":
     epochs = args.epochs
     device = torch.device("cuda" if args.use_cuda else "cpu")
     operation = args.operation
-    task_weight = args.operation
+    task_weight = args.taskweight
 
     basedir = 'data/omniart/'
     trainfile = basedir + "train_complete.csv"
