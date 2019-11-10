@@ -7,17 +7,34 @@ import torch
 import torch.optim as optim
 import matplotlib.pyplot as plt
 import numpy as np
+import argparse
 
-output_dimension = 10
+def parse_args():
+    parser = argparse.ArgumentParser(description="Polar Prototypical Regression")
+    parser.add_argument("-o", dest="output_dimension", default=46, type=int)
+    parser.add_argument("-r", dest="optimizer", default="sgd", type=str)
+    parser.add_argument("-l", dest="learning_rate", default=0.001, type=float)
+    parser.add_argument("-m", dest="momentum", default=0.9, type=float)
+    parser.add_argument("-c", dest="decay", default=0.0001, type=float)
+    parser.add_argument("-s", dest="batch_size", default=128, type=int)
+    parser.add_argument("-e", dest="epochs", default=250, type=int)
+    parser.add_argument("--basedir", dest="dataset", default="data/omniart/", type=str)
+    parser.add_argument("--seed", dest="seed", default=100, type=int)
+    parser.add_argument("--operation", dest="task", default='joint', type=int) #could be classification, regression, or joint
+    parser.add_argument("--taskweight", dest="taskweight", default=0.5, type=float) #weight of classification
+    args = parser.parse_args()
+    return args
+
+output_dimension = 46
 privileged_info = None
-lr = .01
+lr = .001
 momentum = .9
 use_cuda = True
-batch_size = 12
+batch_size = 128
 epochs = 300
 device = torch.device("cuda" if use_cuda else "cpu")
-operation = 'classification'
-class_weight = .5
+operation = 'joint'
+task_weight = .5
 
 basedir = 'data/omniart/'
 trainfile = basedir + "train_complete.csv"
@@ -42,7 +59,6 @@ classification_matched_points = create_hypersphere_loss_w_sgd(num_classes = num_
 #use for year regression
 years = train_loader.dataset.years
 
-
 # upper bound prototype, corresponds to p_u in equation 7
 upper_bound_prototype = np.zeros(output_dimension)
 upper_bound_prototype[0] = 1
@@ -56,13 +72,15 @@ train_loader.dataset.years = normalized_years
 model = resnet32(output_dimension, dataset='omniart').to(device)
 optimizer = optim.SGD(model.parameters(), lr=lr, momentum=momentum, weight_decay=1e-4)
 
-
 for epoch in range(1, epochs + 1):
     if epoch%100 == 0:
         lr = lr/10
         optimizer = optim.SGD(model.parameters(), lr=lr, momentum=momentum, weight_decay=1e-4)
-    train(model, device, train_loader, optimizer, epoch, classification_matched_points, operation, upper_bound_prototype, class_weight)
-    test(model, device, test_loader, classification_matched_points, epoch, operation, upper_bound, lower_bound)
+    train(model, device, train_loader, optimizer, epoch, classification_matched_points,
+          operation, upper_bound_prototype, upper_bound, lower_bound, task_weight)
+    test(model, device, test_loader, epoch, classification_matched_points,
+          operation, upper_bound_prototype, upper_bound, lower_bound, task_weight)
+
 
 
 
