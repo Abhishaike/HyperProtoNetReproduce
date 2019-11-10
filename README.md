@@ -1,4 +1,4 @@
-# Reimplementation of the 2020 NeurIPS paper "Hyperspherical Prototype Networks"
+# Reimplementation of the 2019 NeurIPS paper "Hyperspherical Prototype Networks"
 
 ## Introduction
 This is a reimplementation of the NeurIPS 2019 paper [‘Hyperspherical Prototype Networks’](https://arxiv.org/abs/1901.10514). This paper proposes an extension to Prototype Networks, in which the prototypes are placed a priori with large margin separation, and remain unchanged during the training/testing process of the model. This paper suggests  that this extension allows for more flexible classification, regression, and joint multi-task training of regression/classification, and with higher accuracy compared to typical Prototype Networks
