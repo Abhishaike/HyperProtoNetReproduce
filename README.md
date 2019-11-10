@@ -38,9 +38,10 @@ However, the code is modular and amenable to both tasks 5 and 6; CUB-200 could e
 
 1. OmniArt : Regression w/ LR of .001
 
-| Output Dimension | Original Acc.| Reimplementation Acc.|
+| Learning Rate | Original Acc.| Reimplementation Acc.|
 | :---         |     :---:      |          ---: |
-| S_2   | 76.3     | git status    |
+| .01   | 84.4     | git status    |
+| .001   | 76.3     | git status    |
 
 1. OmniArt : Joint Regression and Classification
 
