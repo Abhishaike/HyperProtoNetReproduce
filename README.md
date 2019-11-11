@@ -49,7 +49,7 @@ However, the code is modular and amenable to both tasks 5 and 6; CUB-200 could e
 | :---         |     :---:      |          ---: |     :---:      |          ---: |
 | .01   | 46.6     | git status    | 65.2     | git status    |
 | .1     | 51.2       | git diff      | 64.6       | git diff      |
-| .25     | 54.5       | git diff      | 64.1       | git diff      |
+| .25     | 54.5       | 53.1      | 64.1       | 69.71      |
 | .5     | 52.6       | git diff      | 68.3       | git diff      |
 | .9     | 51.4       | git diff      | 83.6       | git diff      |
 
