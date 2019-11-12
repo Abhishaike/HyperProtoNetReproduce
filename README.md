@@ -13,7 +13,7 @@ The primary benchmarks of the paper are the following:
 5.	Benchmarking hypersphere prototype classification on low-sample problems using CUB-200.
 6.	Benchmarking hypersphere prototype classification on ImageNet-200 and CIFAR-100 using privileged information to place the prototypes.
 
-This repository reimplements tasks 1-4, which are the main focuses of the paper. The paper tests (3) with 2 output dimensions as well, but as the results are near-identical to one another, we reimplemented just the one output dimension
+This repository reimplements tasks 1-4, which are the main focuses of the paper. The paper tests (3) with 2 output dimensions as well, but as the results are near-identical to one another, we reimplemented just the one output dimension.
 
 However, the code is modular and amenable to both tasks 5 and 6; CUB-200 could easily be used within the current ‘train_and_test_imagenet_cifar.py’ file, and privileged information is included as a parameter/function in the prototype optimization files and only require the word2vec vectors and loss function to be supplied. 
 
