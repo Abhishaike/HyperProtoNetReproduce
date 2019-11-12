@@ -32,16 +32,16 @@ However, the code is modular and amenable to both tasks 5 and 6; CUB-200 could e
 | Output Dimension | Original Acc.| Reimplementation Acc.|
 | :---         |     :---:      |          ---: |
 | 25   | 38.6     | git status    |
-| 50     | 44.7       | git diff      |
+| 50     | 44.7       | 40.1      |
 | 100     | 44.6       | git diff      |
 | 200     | 44.7       | git diff      |
 
-1. OmniArt : Regression w/ LR of .001
+1. OmniArt : Regression
 
 | Learning Rate | Original Acc.| Reimplementation Acc.|
 | :---         |     :---:      |          ---: |
 | .01   | 84.4     | git status    |
-| .001   | 76.3     | git status    |
+| .001   | 76.3     | 65.87    |
 
 1. OmniArt : Joint Regression and Classification
 
