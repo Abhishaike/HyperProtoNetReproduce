@@ -61,7 +61,7 @@ if __name__ == "__main__":
                                                                                unique_classes = unique_classes,
                                                                                unique_class_numbers = unique_class_numbers,
                                                                                use_privileged_info = False)
-    elif args.prototype_optimizer == 'vfgs':
+    elif args.prototype_optimizer == 'bfgs':
         classification_matched_points = create_hypersphere_loss_wo_constraints(num_classes = num_classes,
                                                                                output_dimension = output_dimension,
                                                                                unique_classes = unique_classes,

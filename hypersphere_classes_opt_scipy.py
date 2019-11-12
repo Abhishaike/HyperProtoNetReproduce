@@ -25,7 +25,7 @@ def create_hypersphere_loss_wo_constraints(num_classes, output_dimension, unique
                            optimized_hyperspheres,
                            args=(num_classes, output_dimension),
                            method='BFGS',
-                           options={'disp': None, 'maxiter': 2})
+                           options={'disp': None, 'maxiter': 10})
             optimized_hyperspheres = np.reshape(res.x, (num_classes, output_dimension))  # scipy auto flattens the hyperspheres, this turns it back to K x D
             print('Hypersphere init loss:', res.fun)
     else:
@@ -34,7 +34,7 @@ def create_hypersphere_loss_wo_constraints(num_classes, output_dimension, unique
             res = minimize(combined_loss,
                            optimized_hyperspheres,
                            args=(num_classes, output_dimension, unique_classes),
-                           method='Nelder-Mead',
+                           method='BFGS',
                            options={'disp': None, 'maxiter': 10})
             optimized_hyperspheres = np.reshape(res.x, (num_classes, output_dimension))  # scipy auto flattens the hyperspheres, this turns it back to K x D
             print('Hypersphere init loss:', res.fun)
@@ -55,7 +55,7 @@ def create_hypersphere_loss_w_constraints(num_classes, output_dimension, unique_
     the set of hypersphere should be a matrix of K x D
 
     IDENTICAL TO THE ABOVE LOSS, EXCEPT INBUILT CONSTRAINTS ARE USED AND L2 REPROJECTION IS ONLY DONE AT THE END OF THE
-    OPTIMIZATION. NOT USED DUE TO EXTREMELY LARGE TIME DEMANDS
+    OPTIMIZATION. NOT USED DUE TO EXTREMELY LARGE TIME DEMANDS.
     '''
     np.random.seed(seed=0)
     init_hyperspheres = np.array([-2*np.array(np.random.random(output_dimension))+1 for x in range(num_classes)]) #init the hyperspheres
