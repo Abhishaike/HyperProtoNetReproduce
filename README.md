@@ -63,6 +63,12 @@ wget -r -nH --cut-dirs=3 --no-parent --reject="index.html*" http://isis-data.sci
 The CIFAR-100 data should be downloaded automatically upon the appropriate CIFAR-100 train run. 
 
 ## Running train/test scripts
+
+First, use the requirments.txt file to install all required packages. To do this, run: 
+```
+pip install -r requirements.txt
+```
+
 For the CIFAR-100 or ImageNet-200 (change dataset arguement as needed to 'imagenet', 'cifar' or 'mnist') classification tasks
 ```
 python3 main_imagenet_cifar.py.py --dataset imagenet --seed 50
