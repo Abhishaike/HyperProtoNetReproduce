@@ -31,7 +31,7 @@ However, the code is modular and amenable to both tasks 5 and 6; CUB-200 could e
 
 | Output Dimension | Original Acc.| Reimplementation Acc.|
 | :---         |     :---:      |          ---: |
-| 25   | 38.6     | TBD    |
+| 25   | 38.6     | 36.3    |
 | 50     | 44.7       | 40.1      |
 | 100     | 44.6       | TBD      |
 | 200     | 44.7       | TBD      |
