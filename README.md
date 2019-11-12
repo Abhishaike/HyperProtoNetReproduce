@@ -23,35 +23,35 @@ However, the code is modular and amenable to both tasks 5 and 6; CUB-200 could e
 | Output Dimension | Original Acc.| Reimplementation Acc.|
 | :---         |     :---:      |          ---: |
 | 10   | 51.1     | 50.7    |
-| 25     | 63.0       | git diff      |
-| 50     | 64.7       | git diff      |
-| 100     | 65.0       | git diff      |
+| 25     | 63.0       | TBD      |
+| 50     | 64.7       | TBD      |
+| 100     | 65.0       | TBD      |
 
 1. ImageNet-200 : Classification
 
 | Output Dimension | Original Acc.| Reimplementation Acc.|
 | :---         |     :---:      |          ---: |
-| 25   | 38.6     | git status    |
+| 25   | 38.6     | TBD    |
 | 50     | 44.7       | 40.1      |
-| 100     | 44.6       | git diff      |
-| 200     | 44.7       | git diff      |
+| 100     | 44.6       | TBD      |
+| 200     | 44.7       | TBD      |
 
 1. OmniArt : Regression
 
 | Learning Rate | Original Acc.| Reimplementation Acc.|
 | :---         |     :---:      |          ---: |
-| .01   | 84.4     | git status    |
+| .01   | 84.4     |TBD    |
 | .001   | 76.3     | 65.87    |
 
 1. OmniArt : Joint Regression and Classification
 
 | Task Weight | Original - Classification Acc. | Reimplementation - Classification Acc.| Original - Regression MAE| Reimplementation - Regression MAE|
 | :---         |     :---:      |          ---: |     :---:      |          ---: |
-| .01   | 46.6     | git status    | 65.2     | git status    |
-| .1     | 51.2       | git diff      | 64.6       | git diff      |
+| .01   | 46.6     | TBD    | 65.2     | TBD    |
+| .1     | 51.2       | TBD      | 64.6       | TBD      |
 | .25     | 54.5       | 53.1      | 64.1       | 69.71      |
-| .5     | 52.6       | git diff      | 68.3       | git diff      |
-| .9     | 51.4       | git diff      | 83.6       | git diff      |
+| .5     | 52.6       | TBD      | 68.3       | TBD      |
+| .9     | 51.4       | TBD      | 83.6       | TBD      |
 
 ## Downloading Data
 For the OmniArt and ImageNet200 datasets, while in the home directory:
