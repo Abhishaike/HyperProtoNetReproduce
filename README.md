@@ -48,7 +48,7 @@ However, the code is modular and amenable to both tasks 5 and 6; CUB-200 could e
 | Task Weight | Original - Classification Acc. | Reimplementation - Classification Acc.| Original - Regression MAE| Reimplementation - Regression MAE|
 | :---         |     :---:      |          ---: |     :---:      |          ---: |
 | .01   | 46.6     | TBD    | 65.2     | TBD    |
-| .1     | 51.2       | TBD      | 64.6       | TBD      |
+| .1     | 51.2       | 50.2      | 64.6       | 68.5      |
 | .25     | 54.5       | 53.1      | 64.1       | 69.71      |
 | .5     | 52.6       | TBD      | 68.3       | TBD      |
 | .9     | 51.4       | TBD      | 83.6       | TBD      |
