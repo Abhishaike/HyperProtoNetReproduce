@@ -18,11 +18,11 @@ This repository reimplements tasks 1-4, which are the main focuses of the paper.
 However, the code is modular and amenable to both tasks 5 and 6; CUB-200 could easily be used within the current ‘train_and_test_imagenet_cifar.py’ file, and privileged information is included as a parameter/function in the prototype optimization files and only require the word2vec vectors and loss function to be supplied. 
 
 ## Results
-1. CIFAR-100 : Classification
+1. CIFAR-100 : Classification (The accuracy here is highly diverged from the paper. It is possible that more training iterations would help, the network still seemed to be improving at 250 epochs.)
 
 | Output Dimension | Original Acc.| Reimplementation Acc.|
 | :---         |     :---:      |          ---: |
-| 10   | 51.1     | 50.7    |
+| 10   | 51.1     | 36.6    |
 | 25     | 63.0       | TBD      |
 | 50     | 64.7       | TBD      |
 | 100     | 65.0       | TBD      |
