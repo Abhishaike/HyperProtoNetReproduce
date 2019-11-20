@@ -50,8 +50,8 @@ However, the code is modular and amenable to both tasks 5 and 6; CUB-200 could e
 | .01   | 46.6     | 46.5    | 65.2     | 67.8    |
 | .1     | 51.2       | 50.2      | 64.6       | 68.5      |
 | .25     | 54.5       | 53.1      | 64.1       | 69.71      |
-| .5     | 52.6       | TBD      | 68.3       | TBD      |
-| .9     | 51.4       | TBD      | 83.6       | TBD      |
+| .5     | 52.6       | 51.2      | 68.3       | 79.46      |
+| .9     | 51.4       | 48.4      | 83.6       | 118.75      |
 
 ## Downloading Data
 For the OmniArt and ImageNet200 datasets, while in the home directory:
