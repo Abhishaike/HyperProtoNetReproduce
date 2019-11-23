@@ -25,7 +25,7 @@ However, the code is modular and amenable to both tasks 5 and 6; CUB-200 could e
 | 10   | 51.1     | 36.6    |
 | 25     | 63.0       | 48.98      |
 | 50     | 64.7       | 50.0      |
-| 100     | 65.0       | TBD      |
+| 100     | 65.0       | 53.4      |
 
 1. ImageNet-200 : Classification
 
