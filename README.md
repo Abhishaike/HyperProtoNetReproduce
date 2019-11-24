@@ -36,11 +36,11 @@ However, the code is modular and amenable to both tasks 5 and 6; CUB-200 could e
 | 100     | 44.6       | 42.2      |
 | 200     | 44.7       | 42.1      |
 
-1. OmniArt : Regression
+1. OmniArt : Regression MAE
 
-| Learning Rate | Original Acc.| Reimplementation Acc.|
+| Learning Rate | Original MAE.| Reimplementation MAE.|
 | :---         |     :---:      |          ---: |
-| .01   | 84.4     |TBD    |
+| .01   | 84.4     |85.1    |
 | .001   | 76.3     | 65.87    |
 
 1. OmniArt : Joint Regression and Classification
