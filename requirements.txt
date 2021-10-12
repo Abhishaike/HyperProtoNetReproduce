@@ -5,7 +5,7 @@ llvmlite==0.30.0
 matplotlib==3.0.3
 numba==0.46.0
 numpy==1.17.3
-opencv-python==4.1.1.26
+opencv-python==4.2.0.32
 pandas==0.25.3
 Pillow==6.2.1
 pyparsing==2.4.2
